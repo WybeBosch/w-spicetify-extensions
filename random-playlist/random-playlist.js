@@ -1,8 +1,8 @@
 // NAME: Random Playlist
-// DESCRIPTION: Top bar button that plays a random playlist from your library, folders included.
+// DESCRIPTION: "Random playlist" button under the Your Library title. Plays a random playlist from your library, folders included.
 
 (function randomPlaylist() {
-	if (!Spicetify?.Topbar?.Button || !Spicetify.Platform?.RootlistAPI || !Spicetify.Player?.playUri) {
+	if (!Spicetify?.Platform?.RootlistAPI || !Spicetify.Player?.playUri || !Spicetify.SVGIcons?.shuffle) {
 		setTimeout(randomPlaylist, 300);
 		return;
 	}
@@ -18,5 +18,20 @@
 		Spicetify.showNotification(`Playing ${pick.name}`);
 	}
 
-	new Spicetify.Topbar.Button("Play a random playlist", "shuffle", playRandom).register();
+	function mount() {
+		const header = document.querySelector(".main-yourLibraryX-header");
+		const create = header?.querySelector("button[aria-label='Create']");
+		if (!create || header.querySelector(".random-playlist")) return;
+		const btn = document.createElement("button");
+		btn.type = "button";
+		btn.className = [...create.classList].filter((c) => !c.startsWith("main-useDropTarget")).join(" ") + " random-playlist";
+		btn.style.alignSelf = "flex-start";
+		btn.setAttribute("aria-label", "Random playlist");
+		btn.innerHTML = `<svg role="img" aria-hidden="true" class="${create.querySelector("svg")?.getAttribute("class") ?? ""}" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">${Spicetify.SVGIcons.shuffle}</svg><span class="${create.querySelector("span")?.getAttribute("class") ?? ""}">Random playlist</span>`;
+		btn.onclick = playRandom;
+		header.querySelector(".main-yourLibraryX-headerContent").after(btn);
+	}
+
+	new MutationObserver(mount).observe(document.body, { childList: true, subtree: true });
+	mount();
 })();
