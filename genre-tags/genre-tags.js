@@ -53,7 +53,7 @@
 		if (!el) {
 			el = document.createElement("div");
 			el.className = "genre-tags";
-			el.style.cssText = "grid-area:genres;margin-top:4px;font-size:11px;font-style:italic;color:var(--text-subdued);white-space:nowrap;overflow:hidden;text-overflow:ellipsis";
+			el.style.cssText = "grid-area:genres;margin-top:8px;font-size:11px;font-style:italic;color:var(--text-subdued);white-space:nowrap;overflow:hidden;text-overflow:ellipsis";
 			container.style.gridTemplateAreas = '"pretitle pretitle" "title title" "badges subtitle" "genres genres"';
 			container.append(el);
 		}
