@@ -7,15 +7,38 @@
 		return;
 	}
 
+	const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 	async function playRandom() {
 		const { items } = await Spicetify.Platform.RootlistAPI.getContents();
 		const playlists = [];
-		const walk = (list) => list.forEach((i) => (i.type === "folder" ? walk(i.items) : i.type === "playlist" && playlists.push(i)));
-		walk(items);
+		const walk = (list, folders) =>
+			list.forEach((i) => (i.type === "folder" ? walk(i.items, [...folders, i.uri]) : i.type === "playlist" && playlists.push({ ...i, folders })));
+		walk(items, []);
 		if (!playlists.length) return;
 		const pick = playlists[Math.floor(Math.random() * playlists.length)];
 		await Spicetify.Player.playUri(pick.uri);
 		Spicetify.showNotification(`Playing ${pick.name}`);
+		Spicetify.Platform.History.push(`/playlist/${pick.uri.split(":").pop()}`);
+		revealInSidebar(pick);
+	}
+
+	async function revealInSidebar(pick) {
+		const storage = Spicetify.Platform.LocalStorageAPI;
+		const expanded = storage.getItem("ylx-expanded-folders") ?? [];
+		storage.setItem("ylx-expanded-folders", [...new Set([...expanded, ...pick.folders])]);
+		const find = () => document.querySelector(`.main-yourLibraryX-library [aria-labelledby^="listrow-title-${pick.uri}"]`);
+		await sleep(300);
+		const scroller = document.querySelector(".main-yourLibraryX-library [data-overlayscrollbars-viewport]");
+		if (!scroller) return;
+		// The list is virtualized, so rows only exist near the viewport: walk down until the row renders.
+		scroller.scrollTop = 0;
+		for (let i = 0; i < 200 && !find(); i++) {
+			if (scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight) break;
+			scroller.scrollTop += scroller.clientHeight * 0.8;
+			await sleep(40);
+		}
+		find()?.scrollIntoView({ block: "center" });
 	}
 
 	function mount() {
