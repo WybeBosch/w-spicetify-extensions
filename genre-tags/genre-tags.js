@@ -49,20 +49,13 @@
 	function slot() {
 		const container = document.querySelector(".main-trackInfo-container");
 		if (!container) return null;
-		let line = container.querySelector("#custom-track-context");
-		if (!line) {
-			line = document.createElement("div");
-			line.id = "custom-track-context";
-			line.style.cssText = "grid-area:context;contain:inline-size;font-size:11px;color:var(--text-subdued);white-space:nowrap;overflow:hidden;text-overflow:ellipsis";
-			container.style.gridTemplateAreas = '"pretitle pretitle" "title title" "badges subtitle" "context context"';
-			container.append(line);
-		}
-		let el = line.querySelector(".genre-tags");
+		let el = container.querySelector(".genre-tags");
 		if (!el) {
-			el = document.createElement("span");
+			el = document.createElement("div");
 			el.className = "genre-tags";
-			el.style.fontStyle = "italic";
-			line.append(el);
+			el.style.cssText = "grid-area:genres;font-size:11px;font-style:italic;color:var(--text-subdued);white-space:nowrap;overflow:hidden;text-overflow:ellipsis";
+			container.style.gridTemplateAreas = '"pretitle pretitle" "title title" "badges subtitle" "genres genres"';
+			container.append(el);
 		}
 		return el;
 	}
@@ -93,7 +86,7 @@
 
 	Spicetify.Player.addEventListener("songchange", update);
 	new MutationObserver(() => {
-		if (!document.querySelector("#custom-track-context .genre-tags")) update();
+		if (!document.querySelector(".main-trackInfo-container .genre-tags")) update();
 	}).observe(document.querySelector(".Root__now-playing-bar") ?? document.body, { childList: true, subtree: true });
 	update();
 })();
