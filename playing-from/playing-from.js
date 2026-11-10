@@ -15,7 +15,7 @@
 	`;
 	document.head.append(style);
 
-	const LABELS = { playlist: "Playlist", album: "Album", artist: "Artist", show: "Podcast" };
+	const ICONS = { playlist: "playlist", album: "album", artist: "artist", show: "podcasts", collection: "heart" };
 
 	function path(uri) {
 		const parts = uri.split(":");
@@ -42,8 +42,11 @@
 		if (!el) return;
 		const ctx = Spicetify.Player.data?.context;
 		const name = ctx?.metadata?.context_description;
-		const label = ctx?.uri?.includes("collection") ? "Playlist" : LABELS[ctx?.uri?.split(":")[1]];
-		el.textContent = name ? (label ? `${label}: ${name}` : name) : "";
+		const icon = Spicetify.SVGIcons[ICONS[ctx?.uri?.includes("collection") ? "collection" : ctx?.uri?.split(":")[1]]];
+		el.replaceChildren();
+		if (name && icon) el.insertAdjacentHTML("beforeend", `<svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor" style="vertical-align:-1px;margin-right:4px">${icon}</svg>`);
+		if (name) el.append(name);
+		el.title = name ?? "";
 		el.dataset.path = name && ctx.uri ? path(ctx.uri) : "";
 		requestAnimationFrame(() => align(el));
 	}
