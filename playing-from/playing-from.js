@@ -1,8 +1,8 @@
 // NAME: Playing From
-// DESCRIPTION: Shows the playlist, album or artist you are playing from in the now playing bar. Click it to open it. Also hides the "Lossless" line.
+// DESCRIPTION: Shows the playlist, album or artist you are playing from above the now playing buttons. Click it to open it. Also hides the "Lossless" line.
 
 (function playingFrom() {
-	if (!Spicetify?.Player?.data || !Spicetify.Platform?.History || !document.querySelector(".main-trackInfo-container")) {
+	if (!Spicetify?.Player?.data || !Spicetify.Platform?.History || !document.querySelector(".main-nowPlayingWidget-actionButtonWrapper")) {
 		setTimeout(playingFrom, 300);
 		return;
 	}
@@ -11,9 +11,11 @@
 	style.textContent = `
 		.main-nowPlayingBar-nowPlayingBar { height: 84px; }
 		.main-trackInfo-container > :has(.main-trackInfo-artists > button) { display: none; }
-		#custom-track-context .playing-from:not(:empty) ~ .genre-tags:not(:empty)::before { content: "\\00a0· "; font-style: normal; }
+		.main-nowPlayingWidget-actionButtonWrapper { position: relative; }
 	`;
 	document.head.append(style);
+
+	const LABELS = { playlist: "Playlist", album: "Album", artist: "Artist", show: "Podcast" };
 
 	function path(uri) {
 		const parts = uri.split(":");
@@ -22,23 +24,15 @@
 	}
 
 	function slot() {
-		const container = document.querySelector(".main-trackInfo-container");
-		if (!container) return null;
-		let line = container.querySelector("#custom-track-context");
-		if (!line) {
-			line = document.createElement("div");
-			line.id = "custom-track-context";
-			line.style.cssText = "grid-area:context;contain:inline-size;font-size:11px;color:var(--text-subdued);white-space:nowrap;overflow:hidden;text-overflow:ellipsis";
-			container.style.gridTemplateAreas = '"pretitle pretitle" "title title" "badges subtitle" "context context"';
-			container.append(line);
-		}
-		let el = line.querySelector(".playing-from");
+		const wrapper = document.querySelector(".main-nowPlayingWidget-actionButtonWrapper");
+		if (!wrapper) return null;
+		let el = wrapper.querySelector(".playing-from");
 		if (!el) {
 			el = document.createElement("a");
 			el.className = "playing-from";
-			el.style.cssText = "cursor:pointer;color:inherit";
+			el.style.cssText = "position:absolute;bottom:100%;left:8px;font-size:11px;color:var(--text-subdued);cursor:pointer;white-space:nowrap";
 			el.onclick = () => el.dataset.path && Spicetify.Platform.History.push(el.dataset.path);
-			line.prepend(el);
+			wrapper.prepend(el);
 		}
 		return el;
 	}
@@ -48,14 +42,14 @@
 		if (!el) return;
 		const ctx = Spicetify.Player.data?.context;
 		const name = ctx?.metadata?.context_description;
-		el.textContent = name ?? "";
+		const label = ctx?.uri?.includes("collection") ? "Playlist" : LABELS[ctx?.uri?.split(":")[1]];
+		el.textContent = name ? (label ? `${label}: ${name}` : name) : "";
 		el.dataset.path = name && ctx.uri ? path(ctx.uri) : "";
-		el.title = name ? `Playing from ${name}` : "";
 	}
 
 	Spicetify.Player.addEventListener("songchange", update);
 	new MutationObserver(() => {
-		if (!document.querySelector("#custom-track-context .playing-from")) update();
+		if (!document.querySelector(".main-nowPlayingWidget-actionButtonWrapper .playing-from")) update();
 	}).observe(document.querySelector(".Root__now-playing-bar") ?? document.body, { childList: true, subtree: true });
 	update();
 })();
