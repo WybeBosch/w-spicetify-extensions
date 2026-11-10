@@ -40,6 +40,10 @@
 		el.title = name ? `Playing from ${name}` : "";
 	}
 
+	const style = document.createElement("style");
+	style.textContent = ".main-nowPlayingBar-nowPlayingBar { height: 108px; }";
+	document.head.append(style);
+
 	Spicetify.Player.addEventListener("songchange", update);
 	new MutationObserver(() => {
 		if (!document.querySelector(".main-trackInfo-container .playing-from")) update();
