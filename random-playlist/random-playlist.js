@@ -73,9 +73,8 @@
 		const style = document.createElement("style");
 		style.id = "random-playlist-style";
 		style.textContent = `
-			/* follow the title, which Spotify shifts 24px left until the library is hovered */
-			.random-playlist { transform: translateX(-24px); transition: transform 0.1s ease-out 0.1s; }
-			.YourLibraryX:hover .random-playlist, .YourLibraryX:has(:focus-visible) .random-playlist { transform: none; transition: transform 0.1s ease-out; }
+			/* Spotify slides the title 24px on library hover; pin it so only the collapse icon fades in */
+			.main-yourLibraryX-collapseButton > div > button, .main-yourLibraryX-collapseButton > div > button > span:first-child { transform: none !important; }
 		`;
 		document.head.append(style);
 	}
