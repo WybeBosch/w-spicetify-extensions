@@ -60,13 +60,19 @@
 		return el;
 	}
 
+	function tip(el, text) {
+		el.setAttribute("aria-label", text);
+		if (el._tippy) el._tippy.setContent(text);
+		else if (text) Spicetify.Tippy(el, { ...Spicetify.TippyProps, content: text });
+	}
+
 	function render(el, tags) {
 		el.replaceChildren(
 			...tags.map((tag) => {
 				const a = document.createElement("a");
 				a.textContent = `[${tag}]`;
 				a.style.cssText = "cursor:pointer;color:inherit";
-				a.title = `Open "The Sound of ${tag}"`;
+				tip(a, `Open "The Sound of ${tag}"`);
 				a.onclick = () => openSoundOf(tag).catch(() => Spicetify.Platform.History.push(`/search/${encodeURIComponent(`The Sound of ${tag}`)}/playlists`));
 				return [a, " "];
 			}).flat().slice(0, -1),
