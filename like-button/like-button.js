@@ -84,13 +84,19 @@
 		schedulePaint();
 	}
 
+	function tip(el, text) {
+		el.setAttribute("aria-label", text);
+		if (el._tippy) el._tippy.setContent(text);
+		else if (text) Spicetify.Tippy(el, { ...Spicetify.TippyProps, content: text });
+	}
+
 	function paint(btn) {
 		const id = btn.dataset.id;
 		const state = liked.has(id) ? "liked" : likedIsrcs.has(isrcs.get(id)) ? "half" : "none";
 		if (btn.dataset.state === state) return;
 		btn.dataset.state = state;
 		btn.setAttribute("aria-checked", String(state !== "none"));
-		btn.title = state === "liked" ? "Remove from Liked Songs" : state === "half" ? "Add to Liked Songs (another version is already liked)" : "Add to Liked Songs";
+		tip(btn, state === "liked" ? "Remove from Liked Songs" : state === "half" ? "Add to Liked Songs (another version is already liked)" : "Add to Liked Songs");
 		btn.style.opacity = state === "none" ? "" : "1";
 		btn.querySelector("svg").innerHTML = ICONS[state];
 		btn.querySelector("svg").style.fill = state === "none" ? "var(--text-subdued)" : "var(--text-bright-accent)";
