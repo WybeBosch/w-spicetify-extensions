@@ -1,5 +1,5 @@
 // NAME: Folder Breadcrumb
-// DESCRIPTION: Shows the library folder path above a playlist header. Click a folder to expand and scroll to it in the sidebar.
+// DESCRIPTION: Shows the library folder path in the top bar of a playlist page. Click a folder to expand and scroll to it in the sidebar.
 
 (function folderBreadcrumb() {
 	if (!Spicetify?.Platform?.RootlistAPI || !Spicetify.Platform.History || !Spicetify.SVGIcons?.["playlist-folder"]) {
@@ -55,18 +55,25 @@
 	}
 
 	function render() {
-		const header = document.querySelector(".main-view-container .main-entityHeader-container");
-		if (!header) return;
-		let el = header.querySelector(".folder-breadcrumb");
+		const bar = document.querySelector(".main-topBar-container");
+		const container = bar?.querySelector(".main-topBar-topbarContentContainer");
+		if (!container) return;
+		let el = bar.querySelector(".folder-breadcrumb");
 		if (!path.length) return el?.remove();
-		if (el?.dataset.path === path.map((f) => f.uri).join()) return;
 		if (!el) {
 			el = document.createElement("div");
 			el.className = "folder-breadcrumb";
-			const left = getComputedStyle(header.querySelector(".main-entityHeader-contentWrapper") ?? header).paddingLeft;
-			el.style.cssText = `position:absolute;top:20px;left:${left};z-index:1;display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-base);opacity:.85`;
-			header.append(el);
+			bar.append(el);
 		}
+		const box = container.getBoundingClientRect();
+		const barBox = bar.getBoundingClientRect();
+		const cover = document.querySelector(".main-view-container .main-entityHeader-imageContainer")?.getBoundingClientRect();
+		const left = cover ? cover.left - barBox.left : box.left - barBox.left + (parseFloat(getComputedStyle(container).paddingLeft) || 0);
+		el.style.cssText = `position:absolute;top:${box.top - barBox.top}px;height:${box.height}px;left:${left}px;z-index:2;display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-base);opacity:.85;transition:opacity .15s`;
+		const scroller = document.querySelector(".main-view-container [data-overlayscrollbars-viewport]");
+		el.style.opacity = (scroller?.scrollTop ?? 0) > 40 ? "0" : ".85";
+		el.style.pointerEvents = el.style.opacity === "0" ? "none" : "";
+		if (el.dataset.path === path.map((f) => f.uri).join()) return;
 		el.dataset.path = path.map((f) => f.uri).join();
 		el.innerHTML = `<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">${Spicetify.SVGIcons["playlist-folder"]}</svg>`;
 		path.forEach((folder, i) => {
@@ -89,5 +96,6 @@
 
 	Spicetify.Platform.History.listen(onRoute);
 	new MutationObserver(render).observe(document.querySelector(".Root__main-view") ?? document.body, { childList: true, subtree: true });
+	document.addEventListener("scroll", render, true);
 	onRoute(Spicetify.Platform.History.location);
 })();
