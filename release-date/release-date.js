@@ -38,7 +38,7 @@
 		el.textContent = "";
 		if (!uri?.startsWith("spotify:track:")) return;
 		const date = await getDate(uri).catch(() => null);
-		if (Spicetify.Player.data?.item?.uri === uri) el.textContent = date ? ` - (${date})` : "";
+		if (Spicetify.Player.data?.item?.uri === uri) el.textContent = date ? ` - (${date.slice(0, 4)})` : "";
 	}
 
 	Spicetify.Player.addEventListener("songchange", update);
