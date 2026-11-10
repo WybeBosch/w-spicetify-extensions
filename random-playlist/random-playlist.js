@@ -25,20 +25,34 @@
 
 	async function revealInSidebar(pick) {
 		const storage = Spicetify.Platform.LocalStorageAPI;
-		const expanded = storage.getItem("ylx-expanded-folders") ?? [];
-		storage.setItem("ylx-expanded-folders", [...new Set([...expanded, ...pick.folders])]);
-		const find = () => document.querySelector(`.main-yourLibraryX-library [aria-labelledby^="listrow-title-${pick.uri}"]`);
-		await sleep(300);
+		const expandedFolders = [...new Set([...(storage.getItem("ylx-expanded-folders") ?? []), ...pick.folders])];
+		storage.setItem("ylx-expanded-folders", expandedFolders);
+		const filters = storage.getItem("ylx-active-filter-ids")?.[""] ?? [];
+		const { items } = await Spicetify.Platform.LibraryAPI.getContents({
+			filters,
+			sortOrder: storage.getItem("ylx-active-sort-order-by-filter-id")?.[filters[0]],
+			sortDirection: storage.getItem("ylx-sort-direction"),
+			expandedFolders,
+			offset: 0,
+			limit: 5000,
+		});
+		const uris = items.map((i) => i.uri);
+		const index = uris.indexOf(pick.uri);
 		const scroller = document.querySelector(".main-yourLibraryX-library [data-overlayscrollbars-viewport]");
-		if (!scroller) return;
-		// The list is virtualized, so rows only exist near the viewport: walk down until the row renders.
-		scroller.scrollTop = 0;
-		for (let i = 0; i < 200 && !find(); i++) {
-			if (scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight) break;
-			scroller.scrollTop += scroller.clientHeight * 0.8;
-			await sleep(40);
+		if (index < 0 || !scroller) return;
+
+		// Pinned rows (Liked Songs, Your Episodes) are not in getContents, so measure the offset on a rendered row.
+		const rowUri = (row) => row.querySelector("[aria-labelledby]")?.getAttribute("aria-labelledby").match(/listrow-title-(\S+)/)?.[1];
+		for (let i = 0; i < 40; i++) {
+			const row = [...document.querySelectorAll(".main-yourLibraryX-listItem")].find((r) => uris.includes(rowUri(r)));
+			if (row && +row.getAttribute("aria-setsize") >= uris.length) {
+				const offset = +row.getAttribute("aria-rowindex") - 1 - uris.indexOf(rowUri(row));
+				const height = row.getBoundingClientRect().height;
+				scroller.scrollTop = (index + offset) * height - scroller.clientHeight / 2 + height / 2;
+				return;
+			}
+			await sleep(25);
 		}
-		find()?.scrollIntoView({ block: "center" });
 	}
 
 	function mount() {
