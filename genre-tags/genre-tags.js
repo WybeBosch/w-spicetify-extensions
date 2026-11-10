@@ -11,7 +11,6 @@
 	const NOT_GENRES = new Set(["seen live", "british", "uk", "american", "usa", "female vocalists", "male vocalists", "favorites", "favourites", "the voice", "the voice uk"]);
 	const MAX_TAGS = 3;
 	const MIN_WEIGHT = 10;
-	const GRID = '"pretitle pretitle" "title title" "badges subtitle" "context context" "genres genres" "quality quality"';
 	const cache = new Map();
 
 	const apiKey = () => localStorage.getItem(KEY_STORAGE) || localStorage.getItem("stats:config:api-key");
@@ -50,13 +49,20 @@
 	function slot() {
 		const container = document.querySelector(".main-trackInfo-container");
 		if (!container) return null;
-		let el = container.querySelector(".genre-tags");
+		let line = container.querySelector("#custom-track-context");
+		if (!line) {
+			line = document.createElement("div");
+			line.id = "custom-track-context";
+			line.style.cssText = "grid-area:context;contain:inline-size;font-size:11px;color:var(--text-subdued);white-space:nowrap;overflow:hidden;text-overflow:ellipsis";
+			container.style.gridTemplateAreas = '"pretitle pretitle" "title title" "badges subtitle" "context context"';
+			container.append(line);
+		}
+		let el = line.querySelector(".genre-tags");
 		if (!el) {
-			el = document.createElement("div");
+			el = document.createElement("span");
 			el.className = "genre-tags";
-			el.style.cssText = "grid-area:genres;contain:inline-size;display:flex;gap:4px;font-size:11px;font-style:italic;color:var(--text-subdued);white-space:nowrap;overflow:hidden";
-			container.style.gridTemplateAreas = GRID;
-			container.append(el);
+			el.style.fontStyle = "italic";
+			line.append(el);
 		}
 		return el;
 	}
@@ -69,8 +75,8 @@
 				a.style.cssText = "cursor:pointer;color:inherit";
 				a.title = `Open "The Sound of ${tag}"`;
 				a.onclick = () => openSoundOf(tag).catch(() => Spicetify.Platform.History.push(`/search/${encodeURIComponent(`The Sound of ${tag}`)}/playlists`));
-				return a;
-			}),
+				return [a, " "];
+			}).flat().slice(0, -1),
 		);
 	}
 
@@ -87,7 +93,7 @@
 
 	Spicetify.Player.addEventListener("songchange", update);
 	new MutationObserver(() => {
-		if (!document.querySelector(".main-trackInfo-container .genre-tags")) update();
+		if (!document.querySelector("#custom-track-context .genre-tags")) update();
 	}).observe(document.querySelector(".Root__now-playing-bar") ?? document.body, { childList: true, subtree: true });
 	update();
 })();
