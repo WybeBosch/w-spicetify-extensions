@@ -62,13 +62,22 @@
 		const btn = document.createElement("button");
 		btn.type = "button";
 		btn.className = [...create.classList].filter((c) => !c.startsWith("main-useDropTarget")).join(" ") + " random-playlist";
-		btn.style.cssText = "height:36px;min-width:52px;flex-shrink:0;padding:0 16px;margin:0 12px 0 -8px;box-sizing:border-box;justify-content:center";
+		btn.style.cssText = "height:36px;min-width:52px;flex-shrink:0;padding:0 16px;margin:0 12px;box-sizing:border-box;justify-content:center";
 		btn.setAttribute("aria-label", "Random playlist");
 		btn.innerHTML = `<svg role="img" aria-hidden="true" class="${create.querySelector("svg")?.getAttribute("class") ?? ""}" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">${Spicetify.SVGIcons.shuffle}</svg>`;
 		btn.onclick = playRandom;
 		Spicetify.Tippy?.(btn, { ...Spicetify.TippyProps, content: "Random playlist" });
 		title.style.minWidth = "max-content";
 		title.append(btn);
+		if (document.getElementById("random-playlist-style")) return;
+		const style = document.createElement("style");
+		style.id = "random-playlist-style";
+		style.textContent = `
+			/* follow the title, which Spotify shifts 24px left until the library is hovered */
+			.random-playlist { transform: translateX(-24px); transition: transform 0.1s ease-out 0.1s; }
+			.YourLibraryX:hover .random-playlist, .YourLibraryX:has(:focus-visible) .random-playlist { transform: none; transition: transform 0.1s ease-out; }
+		`;
+		document.head.append(style);
 	}
 
 	new MutationObserver(mount).observe(document.body, { childList: true, subtree: true });
