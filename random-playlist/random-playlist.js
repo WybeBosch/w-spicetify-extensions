@@ -57,15 +57,17 @@
 
 	function mount() {
 		const title = document.querySelector(".main-yourLibraryX-collapseButton");
-		const arrow = document.querySelector(".main-yourLibraryX-headerContent button[aria-label^='Enlarge'], .main-yourLibraryX-headerContent button[aria-label^='Reduce']");
-		if (!title || title.querySelector(".random-playlist")) return;
+		const create = document.querySelector(".main-yourLibraryX-headerContent button[aria-label='Create']");
+		if (!title || !create || title.querySelector(".random-playlist")) return;
 		const btn = document.createElement("button");
 		btn.type = "button";
-		btn.className = [...(arrow?.classList ?? [])].filter((c) => c.startsWith("e-10180-") || c.startsWith("encore-")).join(" ") + " random-playlist";
+		btn.className = [...create.classList].filter((c) => !c.startsWith("main-useDropTarget")).join(" ") + " random-playlist";
+		btn.style.cssText = "height:36px;min-width:52px;flex-shrink:0;padding:0 16px;margin:0 12px 0 -8px;box-sizing:border-box;justify-content:center";
 		btn.setAttribute("aria-label", "Random playlist");
-		btn.innerHTML = `<span aria-hidden="true" class="e-10180-button__icon-wrapper"><svg role="img" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">${Spicetify.SVGIcons.shuffle}</svg></span>`;
+		btn.innerHTML = `<svg role="img" aria-hidden="true" class="${create.querySelector("svg")?.getAttribute("class") ?? ""}" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">${Spicetify.SVGIcons.shuffle}</svg>`;
 		btn.onclick = playRandom;
 		Spicetify.Tippy?.(btn, { ...Spicetify.TippyProps, content: "Random playlist" });
+		title.style.minWidth = "max-content";
 		title.append(btn);
 	}
 
