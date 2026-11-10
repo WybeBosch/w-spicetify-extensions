@@ -31,7 +31,11 @@
 			el = document.createElement("a");
 			el.className = "playing-from";
 			el.style.cssText = "position:absolute;top:100%;left:0;font-size:11px;color:var(--text-subdued);cursor:pointer;white-space:nowrap";
-			el.onclick = () => el.dataset.path && Spicetify.Platform.History.push(el.dataset.path);
+			el.onclick = () => {
+				if (el.dataset.path !== "queue") return el.dataset.path && Spicetify.Platform.History.push(el.dataset.path);
+				const queue = document.querySelector("[data-testid=control-button-queue]");
+				if (queue?.getAttribute("aria-pressed") !== "true") queue?.click();
+			};
 			wrapper.prepend(el);
 		}
 		return el;
@@ -47,13 +51,14 @@
 		const el = slot();
 		if (!el) return;
 		const ctx = Spicetify.Player.data?.context;
-		const name = ctx?.metadata?.context_description;
-		const icon = Spicetify.SVGIcons[ICONS[ctx?.uri?.includes("collection") ? "collection" : ctx?.uri?.split(":")[1]]];
+		const autoplay = Spicetify.Player.data?.item?.provider === "autoplay";
+		const name = autoplay ? "Recommended songs" : ctx?.metadata?.context_description;
+		const icon = Spicetify.SVGIcons[autoplay ? "radio" : ICONS[ctx?.uri?.includes("collection") ? "collection" : ctx?.uri?.split(":")[1]]];
 		el.replaceChildren();
 		if (name && icon) el.insertAdjacentHTML("beforeend", `<svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor" style="vertical-align:-1px;margin-right:4px">${icon}</svg>`);
 		if (name) el.append(name);
-		tip(el, name ? `Open ${name}` : "");
-		el.dataset.path = name && ctx.uri ? path(ctx.uri) : "";
+		tip(el, autoplay ? "Autoplay picked these, open the queue" : name ? `Open ${name}` : "");
+		el.dataset.path = autoplay ? "queue" : name && ctx.uri ? path(ctx.uri) : "";
 		requestAnimationFrame(() => align(el));
 	}
 
