@@ -48,6 +48,24 @@
 				const offset = +row.getAttribute("aria-rowindex") - 1 - uris.indexOf(rowUri(row));
 				const height = row.getBoundingClientRect().height;
 				scroller.scrollTop = (uris.indexOf(target) + offset) * height - scroller.clientHeight / 2 + height / 2;
+				flash(target, rowUri);
+				return;
+			}
+			await new Promise((r) => setTimeout(r, 25));
+		}
+	}
+
+	async function flash(uri, rowUri) {
+		for (let i = 0; i < 20; i++) {
+			const row = [...document.querySelectorAll(".main-yourLibraryX-listItem")].find((r) => rowUri(r) === uri);
+			if (row) {
+				row.style.transition = "none";
+				row.style.backgroundColor = "rgba(30, 215, 96, .35)";
+				requestAnimationFrame(() => {
+					row.style.transition = "background-color 1s ease-out .3s";
+					row.style.backgroundColor = "";
+				});
+				setTimeout(() => (row.style.transition = ""), 1400);
 				return;
 			}
 			await new Promise((r) => setTimeout(r, 25));
