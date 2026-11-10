@@ -53,7 +53,10 @@
 
 	function openSoundOf(tag) {
 		const term = `The Sound of ${tag}`;
-		const id = soundOf?.map[term.toLowerCase()];
+		const names = Object.keys(soundOf?.map ?? {});
+		const word = new RegExp(`\\b${tag.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`);
+		const partial = names.filter((n) => word.test(n));
+		const id = soundOf?.map[term.toLowerCase()] ?? (partial.length === 1 ? soundOf.map[partial[0]] : null);
 		Spicetify.Platform.History.push(id ? `/playlist/${id}` : `/search/${encodeURIComponent(term)}/playlists`);
 	}
 
@@ -107,4 +110,12 @@
 	}).observe(document.querySelector(".Root__now-playing-bar") ?? document.body, { childList: true, subtree: true });
 	update();
 	loadSoundOf().catch(() => {});
+
+	new MutationObserver(() => {
+		if (!Spicetify.Platform.History.location.pathname.startsWith("/search")) return;
+		for (const card of document.querySelectorAll(".main-view-container .main-card-cardContainer:not([data-sound-of])")) {
+			card.dataset.soundOf = "";
+			if (card.textContent.includes("The Sounds of Spotify")) card.style.boxShadow = "inset 0 0 0 2px var(--essential-bright-accent, #1ed760)";
+		}
+	}).observe(document.querySelector(".Root__main-view") ?? document.body, { childList: true, subtree: true });
 })();
