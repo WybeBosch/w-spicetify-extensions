@@ -11,7 +11,7 @@
 	style.textContent = `
 		.main-nowPlayingBar-nowPlayingBar { height: 84px; }
 		.main-trackInfo-container > :has(.main-trackInfo-artists > button) { display: none; }
-		.main-nowPlayingWidget-actionButtonWrapper { position: relative; }
+		.main-nowPlayingWidget-actionButtonWrapper { position: relative; margin-bottom: 12px; }
 	`;
 	document.head.append(style);
 
