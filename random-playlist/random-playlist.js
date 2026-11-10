@@ -1,5 +1,5 @@
 // NAME: Random Playlist
-// DESCRIPTION: "Random playlist" button under the Your Library title. Plays a random playlist from your library, folders included.
+// DESCRIPTION: Shuffle icon next to the Your Library title. Plays a random playlist from your library, folders included.
 
 (function randomPlaylist() {
 	if (!Spicetify?.Platform?.RootlistAPI || !Spicetify.Player?.playUri || !Spicetify.SVGIcons?.shuffle) {
@@ -56,17 +56,17 @@
 	}
 
 	function mount() {
-		const header = document.querySelector(".main-yourLibraryX-header");
-		const create = header?.querySelector("button[aria-label='Create']");
-		if (!create || header.querySelector(".random-playlist")) return;
+		const title = document.querySelector(".main-yourLibraryX-collapseButton");
+		const arrow = document.querySelector(".main-yourLibraryX-headerContent button[aria-label^='Enlarge'], .main-yourLibraryX-headerContent button[aria-label^='Reduce']");
+		if (!title || title.querySelector(".random-playlist")) return;
 		const btn = document.createElement("button");
 		btn.type = "button";
-		btn.className = [...create.classList].filter((c) => !c.startsWith("main-useDropTarget")).join(" ") + " random-playlist";
-		btn.style.alignSelf = "flex-start";
+		btn.className = [...(arrow?.classList ?? [])].filter((c) => c.startsWith("e-10180-") || c.startsWith("encore-")).join(" ") + " random-playlist";
 		btn.setAttribute("aria-label", "Random playlist");
-		btn.innerHTML = `<svg role="img" aria-hidden="true" class="${create.querySelector("svg")?.getAttribute("class") ?? ""}" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">${Spicetify.SVGIcons.shuffle}</svg><span class="${create.querySelector("span")?.getAttribute("class") ?? ""}">Random playlist</span>`;
+		btn.innerHTML = `<span aria-hidden="true" class="e-10180-button__icon-wrapper"><svg role="img" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">${Spicetify.SVGIcons.shuffle}</svg></span>`;
 		btn.onclick = playRandom;
-		header.querySelector(".main-yourLibraryX-headerContent").after(btn);
+		Spicetify.Tippy?.(btn, { ...Spicetify.TippyProps, content: "Random playlist" });
+		title.append(btn);
 	}
 
 	new MutationObserver(mount).observe(document.body, { childList: true, subtree: true });
