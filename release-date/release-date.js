@@ -1,5 +1,5 @@
 // NAME: Release Date
-// DESCRIPTION: Shows the release date of the playing track under its title, and in the track context menu.
+// DESCRIPTION: Shows the release date of the playing track next to its title, and in the track context menu.
 
 (function releaseDate() {
 	if (!Spicetify?.Player?.data || !Spicetify.GraphQL?.Definitions?.getTrack || !Spicetify.ContextMenu || !document.querySelector(".main-trackInfo-container")) {
@@ -19,20 +19,14 @@
 	}
 
 	function slot() {
-		const container = document.querySelector(".main-trackInfo-container");
-		if (!container) return null;
-		let line = container.querySelector("#custom-track-extras");
-		if (!line) {
-			line = document.createElement("div");
-			line.id = "custom-track-extras";
-			line.style.cssText = "grid-area:pretitle;contain:inline-size;display:flex;gap:6px;font-size:11px;color:var(--text-subdued);white-space:nowrap;overflow:hidden;text-overflow:ellipsis";
-			container.append(line);
-		}
-		let el = line.querySelector(".release-date");
+		const title = document.querySelector(".main-trackInfo-name [data-encore-id='text']");
+		if (!title) return null;
+		let el = title.querySelector(".release-date");
 		if (!el) {
 			el = document.createElement("span");
 			el.className = "release-date";
-			line.prepend(el);
+			el.style.cssText = "color:var(--text-subdued);font-size:11px";
+			title.append(el);
 		}
 		return el;
 	}
@@ -44,12 +38,12 @@
 		el.textContent = "";
 		if (!uri?.startsWith("spotify:track:")) return;
 		const date = await getDate(uri).catch(() => null);
-		if (Spicetify.Player.data?.item?.uri === uri) el.textContent = date ?? "";
+		if (Spicetify.Player.data?.item?.uri === uri) el.textContent = date ? ` - (${date})` : "";
 	}
 
 	Spicetify.Player.addEventListener("songchange", update);
 	new MutationObserver(() => {
-		if (!document.querySelector("#custom-track-extras .release-date")) update();
+		if (!document.querySelector(".main-trackInfo-name .release-date")) update();
 	}).observe(document.querySelector(".Root__now-playing-bar") ?? document.body, { childList: true, subtree: true });
 	update();
 
