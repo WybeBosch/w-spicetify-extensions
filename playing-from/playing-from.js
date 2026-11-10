@@ -37,6 +37,12 @@
 		return el;
 	}
 
+	function tip(el, text) {
+		el.setAttribute("aria-label", text);
+		if (el._tippy) el._tippy.setContent(text);
+		else if (text) Spicetify.Tippy(el, { ...Spicetify.TippyProps, content: text });
+	}
+
 	function update() {
 		const el = slot();
 		if (!el) return;
@@ -46,7 +52,7 @@
 		el.replaceChildren();
 		if (name && icon) el.insertAdjacentHTML("beforeend", `<svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor" style="vertical-align:-1px;margin-right:4px">${icon}</svg>`);
 		if (name) el.append(name);
-		el.title = name ?? "";
+		tip(el, name ? `Open ${name}` : "");
 		el.dataset.path = name && ctx.uri ? path(ctx.uri) : "";
 		requestAnimationFrame(() => align(el));
 	}
