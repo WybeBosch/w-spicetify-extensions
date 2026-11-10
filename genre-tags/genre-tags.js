@@ -53,7 +53,7 @@
 		if (!el) {
 			el = document.createElement("div");
 			el.className = "genre-tags";
-			el.style.cssText = "grid-area:genres;margin-top:8px;font-size:11px;font-style:italic;color:var(--text-subdued);white-space:nowrap;overflow:hidden;text-overflow:ellipsis";
+			el.style.cssText = "grid-area:genres;margin-top:8px;font-size:12px;font-style:italic;color:var(--text-subdued);white-space:nowrap;overflow:hidden;text-overflow:ellipsis";
 			container.style.gridTemplateAreas = '"pretitle pretitle" "title title" "badges subtitle" "genres genres"';
 			container.append(el);
 		}
@@ -70,11 +70,11 @@
 		el.replaceChildren(
 			...tags.map((tag) => {
 				const a = document.createElement("a");
-				a.textContent = `[${tag}]`;
-				a.style.cssText = "cursor:pointer;color:inherit";
+				a.textContent = tag;
+				a.style.cssText = "cursor:pointer;color:inherit;text-decoration:underline;text-underline-offset:2px";
 				tip(a, `Open "The Sound of ${tag}"`);
 				a.onclick = () => openSoundOf(tag).catch(() => Spicetify.Platform.History.push(`/search/${encodeURIComponent(`The Sound of ${tag}`)}/playlists`));
-				return [a, " "];
+				return [a, ", "];
 			}).flat().slice(0, -1),
 		);
 	}
