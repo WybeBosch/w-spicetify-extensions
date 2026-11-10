@@ -1,5 +1,5 @@
 // NAME: Playing From
-// DESCRIPTION: Shows the playlist, album or artist you are playing from above the now playing buttons. Click it to open it. Also hides the "Lossless" line.
+// DESCRIPTION: Shows the playlist, album or artist you are playing from under the now playing buttons, on the genre line. Click it to open it. Also hides the "Lossless" line.
 
 (function playingFrom() {
 	if (!Spicetify?.Player?.data || !Spicetify.Platform?.History || !document.querySelector(".main-nowPlayingWidget-actionButtonWrapper")) {
@@ -30,7 +30,7 @@
 		if (!el) {
 			el = document.createElement("a");
 			el.className = "playing-from";
-			el.style.cssText = "position:absolute;bottom:100%;left:8px;font-size:11px;color:var(--text-subdued);cursor:pointer;white-space:nowrap";
+			el.style.cssText = "position:absolute;top:100%;left:0;font-size:11px;color:var(--text-subdued);cursor:pointer;white-space:nowrap";
 			el.onclick = () => el.dataset.path && Spicetify.Platform.History.push(el.dataset.path);
 			wrapper.prepend(el);
 		}
@@ -45,11 +45,24 @@
 		const label = ctx?.uri?.includes("collection") ? "Playlist" : LABELS[ctx?.uri?.split(":")[1]];
 		el.textContent = name ? (label ? `${label}: ${name}` : name) : "";
 		el.dataset.path = name && ctx.uri ? path(ctx.uri) : "";
+		requestAnimationFrame(() => align(el));
+	}
+
+	function align(el) {
+		const wrapper = el.parentElement;
+		const icon = wrapper?.querySelector("button svg");
+		const line = document.querySelector(".main-trackInfo-container .genre-tags") ?? document.querySelector(".main-trackInfo-artists");
+		if (!icon || !line) return;
+		const box = wrapper.getBoundingClientRect();
+		el.style.left = `${icon.getBoundingClientRect().left - box.left}px`;
+		el.style.top = `${line.getBoundingClientRect().top - box.top}px`;
+		el.style.lineHeight = getComputedStyle(line).lineHeight;
 	}
 
 	Spicetify.Player.addEventListener("songchange", update);
 	new MutationObserver(() => {
-		if (!document.querySelector(".main-nowPlayingWidget-actionButtonWrapper .playing-from")) update();
+		const el = document.querySelector(".main-nowPlayingWidget-actionButtonWrapper .playing-from");
+		el ? align(el) : update();
 	}).observe(document.querySelector(".Root__now-playing-bar") ?? document.body, { childList: true, subtree: true });
 	update();
 })();
