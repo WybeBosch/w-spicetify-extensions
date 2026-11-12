@@ -1,7 +1,7 @@
 [
 	{
 		"name": "Like Button",
-		"description": "Heart button on tracklist rows and in the now playing bar. A half heart means another version of the same recording is already liked. No Web API calls.",
+		"description": "Heart button on track rows. Half heart: another version is liked.",
 		"preview": "like-button/preview.png",
 		"main": "like-button/like-button.js",
 		"readme": "like-button/README.md",
@@ -13,7 +13,7 @@
 	},
 	{
 		"name": "Release Date",
-		"description": "Shows the release year next to the playing track's title, and the full release date in the track context menu.",
+		"description": "Release year next to the playing track's title.",
 		"preview": "release-date/preview.png",
 		"main": "release-date/release-date.js",
 		"readme": "release-date/README.md",
@@ -24,7 +24,7 @@
 	},
 	{
 		"name": "Genre Tags",
-		"description": "Shows the playing artist's genres in the now playing bar and links each one to its 'The Sound of ...' playlist by The Sounds of Spotify (Every Noise at Once). Genres come from Last.fm.",
+		"description": "Genres in the now playing bar, linked to 'The Sound of' playlists.",
 		"preview": "genre-tags/preview.png",
 		"main": "genre-tags/genre-tags.js",
 		"readme": "genre-tags/README.md",
@@ -36,7 +36,7 @@
 	},
 	{
 		"name": "Playing From",
-		"description": "Shows the playlist, album or artist you are playing from in the now playing bar. Click it to open it. Shows 'Recommended songs' during autoplay.",
+		"description": "Shows the playlist or album you are playing from. Click to open it.",
 		"preview": "playing-from/preview.png",
 		"main": "playing-from/playing-from.js",
 		"readme": "playing-from/README.md",
@@ -47,7 +47,7 @@
 	},
 	{
 		"name": "Copy Track Titles",
-		"description": "Adds 'Copy titles' to the track context menu. Copies the selected tracks as 'Artist - Title' lines.",
+		"description": "Right-click tracks to copy them as 'Artist - Title'.",
 		"preview": "copy-track-titles/preview.png",
 		"main": "copy-track-titles/copy-track-titles.js",
 		"readme": "copy-track-titles/README.md",
@@ -58,7 +58,7 @@
 	},
 	{
 		"name": "Random Playlist",
-		"description": "Button next to the Your Library title that plays a random playlist from your library, opens it and scrolls to it in the sidebar.",
+		"description": "Button that plays a random playlist from your library.",
 		"preview": "random-playlist/preview.png",
 		"main": "random-playlist/random-playlist.js",
 		"readme": "random-playlist/README.md",
@@ -70,7 +70,7 @@
 	},
 	{
 		"name": "Folder Breadcrumb",
-		"description": "Shows the library folder path at the top of a playlist page. Click a folder to expand it and jump to it in the sidebar.",
+		"description": "Folder path at the top of a playlist. Click to jump to the folder.",
 		"preview": "folder-breadcrumb/preview.png",
 		"main": "folder-breadcrumb/folder-breadcrumb.js",
 		"readme": "folder-breadcrumb/README.md",
@@ -81,7 +81,7 @@
 	},
 	{
 		"name": "Folder Alt Click",
-		"description": "Alt-click a folder arrow in Your Library to collapse or expand it together with all its subfolders.",
+		"description": "Alt-click a folder arrow to collapse or expand all its subfolders.",
 		"preview": "folder-alt-click/preview.png",
 		"main": "folder-alt-click/folder-alt-click.js",
 		"readme": "folder-alt-click/README.md",
@@ -92,7 +92,7 @@
 	},
 	{
 		"name": "Menu Dividers",
-		"description": "Groups the track context menu with extra dividers: these extensions, other extensions, then Spotify's own items.",
+		"description": "Extra dividers that group the track right-click menu.",
 		"preview": "menu-dividers/preview.png",
 		"main": "menu-dividers/menu-dividers.js",
 		"readme": "menu-dividers/README.md",
