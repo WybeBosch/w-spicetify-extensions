@@ -2,7 +2,7 @@
 // DESCRIPTION: Shows Last.fm genre tags of the playing artist in the now playing bar. Click a tag to open its "The Sound of" playlist by thesoundsofspotify.
 
 (function genreTags() {
-	if (!Spicetify?.Player?.data || !Spicetify.Platform?.AuthorizationAPI || !document.querySelector(".main-trackInfo-container")) {
+	if (!Spicetify?.Player?.data || !Spicetify.Platform?.AuthorizationAPI || !Spicetify.PopupModal || !document.querySelector(".main-trackInfo-container")) {
 		setTimeout(genreTags, 300);
 		return;
 	}
@@ -100,9 +100,52 @@
 		el.replaceChildren();
 		const artist = item?.artists?.[0]?.name ?? item?.metadata?.artist_name;
 		if (!artist || !item.uri?.startsWith("spotify:track:")) return;
+		if (!apiKey()) {
+			const a = document.createElement("a");
+			a.textContent = "Set Last.fm key to show genres";
+			a.style.cssText = "cursor:pointer;color:inherit;text-decoration:underline;text-underline-offset:2px";
+			a.onclick = openSettings;
+			el.append(a);
+			return;
+		}
 		const tags = await getTags(artist).catch(() => []);
 		if (Spicetify.Player.data?.item?.uri === item.uri) render(el, tags);
 	}
+
+	function openSettings() {
+		const wrap = document.createElement("div");
+		wrap.innerHTML = `
+			<p style="margin-bottom:12px">Genre Tags gets its genres from Last.fm. Create a free API key at <a href="https://www.last.fm/api/account/create">last.fm/api/account/create</a> and paste the "API key" here.</p>
+			<input type="text" placeholder="Last.fm API key" spellcheck="false" style="width:100%;box-sizing:border-box;padding:10px 12px;border-radius:4px;border:1px solid var(--essential-subdued,#727272);background:var(--background-elevated-base,#242424);color:var(--text-base,#fff)">
+			<p data-status style="margin:10px 0;min-height:20px;color:var(--text-subdued,#b3b3b3)"></p>
+			<button type="button" style="padding:10px 28px;border-radius:9999px;border:0;font-weight:700;cursor:pointer;background:var(--text-bright-accent,#1ed760);color:#000">Save</button>`;
+		const input = wrap.querySelector("input");
+		const status = wrap.querySelector("[data-status]");
+		input.value = localStorage.getItem(KEY_STORAGE) ?? "";
+		wrap.querySelector("button").onclick = async () => {
+			const key = input.value.trim();
+			if (key) {
+				status.textContent = "Checking the key...";
+				const res = await fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=Queen&api_key=${encodeURIComponent(key)}&format=json`)
+					.then((r) => r.json())
+					.catch(() => ({ message: "Could not reach Last.fm" }));
+				if (!res.toptags) {
+					status.textContent = `Last.fm did not accept this key: ${res.message ?? "unknown error"}`;
+					return;
+				}
+				localStorage.setItem(KEY_STORAGE, key);
+			} else {
+				localStorage.removeItem(KEY_STORAGE);
+			}
+			cache.clear();
+			Spicetify.PopupModal.hide();
+			Spicetify.showNotification(key ? "Last.fm key saved" : "Last.fm key removed");
+			update();
+		};
+		Spicetify.PopupModal.display({ title: "Genre Tags", content: wrap });
+	}
+
+	if (Spicetify.Menu?.Item) new Spicetify.Menu.Item("Genre Tags: Last.fm key", false, openSettings).register();
 
 	Spicetify.Player.addEventListener("songchange", update);
 	new MutationObserver(() => {

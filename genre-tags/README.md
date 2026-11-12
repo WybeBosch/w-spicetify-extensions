@@ -10,13 +10,11 @@ Spotify no longer exposes artist genres in its client, and the Web API is rate l
 
 ## Setup
 
-You need a free [Last.fm API key](https://www.last.fm/api/account/create). Open the Spotify devtools console (`spicetify enable-devtools`, then right-click, Inspect) and run:
+You need a free [Last.fm API key](https://www.last.fm/api/account/create).
 
-```js
-localStorage.setItem("genre-tags:lastfm-api-key", "YOUR_KEY");
-```
+Open your profile menu (top right) and choose **Genre Tags: Last.fm key**, paste the key and save. It is checked against Last.fm before it is stored. Until a key is set, the now playing bar shows a "Set Last.fm key to show genres" link that opens the same dialog.
 
-Then reload Spotify. If you use the Stats custom app with a Last.fm key, that key is used automatically.
+If you use the Stats custom app with a Last.fm key, that key is used automatically.
 
 ## How the playlist lookup works
 
