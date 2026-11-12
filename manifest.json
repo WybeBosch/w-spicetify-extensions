@@ -24,7 +24,7 @@
 	},
 	{
 		"name": "Genre Tags",
-		"description": "Shows Last.fm genre tags of the playing artist in the now playing bar. Click a tag to open its 'The Sound of' playlist by The Sounds of Spotify.",
+		"description": "Shows the playing artist's genres in the now playing bar and links each one to its 'The Sound of ...' playlist by The Sounds of Spotify (Every Noise at Once). Genres come from Last.fm.",
 		"preview": "genre-tags/preview.png",
 		"main": "genre-tags/genre-tags.js",
 		"readme": "genre-tags/README.md",

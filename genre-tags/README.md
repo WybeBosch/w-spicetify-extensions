@@ -1,8 +1,10 @@
 # Genre Tags
 
-Shows the top Last.fm tags of the playing artist under the artist name in the now playing bar.
+Shows the genres of the playing artist in the now playing bar, and links each one to its "The Sound of ..." playlist from [The Sounds of Spotify](https://open.spotify.com/user/thesoundsofspotify) (the Every Noise at Once playlists, like [The Sound of Everything](https://open.spotify.com/playlist/69fEt9DN5r4JQATi52sRtq)).
 
-Click a tag to open the matching "The Sound of ..." playlist by [The Sounds of Spotify](https://open.spotify.com/user/thesoundsofspotify) (Every Noise at Once). If there is no exact match it opens the playlist search instead, where their playlists get a green border.
+- The genres are the artist's top tags on Last.fm, shown under the artist name.
+- Click a genre to open the matching "The Sound of ..." playlist, for example "The Sound of Dream Pop".
+- If there is no exact match it opens the playlist search instead, where playlists by The Sounds of Spotify get a green border.
 
 Spotify no longer exposes artist genres in its client, and the Web API is rate limited, so the tags come from Last.fm.
 
