@@ -15,7 +15,6 @@ Built and tested on Spotify 1.2.87 with spicetify 2.46.4.
 | [Folder Breadcrumb](folder-breadcrumb/) | Shows the library folder path at the top of a playlist page. Click a folder to expand it and jump to it in the sidebar. |
 | [Folder Alt Click](folder-alt-click/) | Alt-click a folder arrow in Your Library to collapse or expand it together with all its subfolders. |
 | [Menu Dividers](menu-dividers/) | Groups the track context menu with extra dividers: these extensions, other extensions, then Spotify's own items. |
-| [Layout Tweaks](layout-tweaks/) | Shows up to 10 custom app icons in the top bar instead of 4. |
 | [Made For You](made-for-you/) | Custom app: a "Made For You" link in the navigation that opens Spotify's own Made For You page. |
 
 ## Install

@@ -99,16 +99,5 @@
 		"tags": [
 			"context menu"
 		]
-	},
-	{
-		"name": "Layout Tweaks",
-		"description": "Shows up to 10 custom app icons in the top bar instead of 4.",
-		"preview": "layout-tweaks/preview.png",
-		"main": "layout-tweaks/layout-tweaks.js",
-		"readme": "layout-tweaks/README.md",
-		"tags": [
-			"layout",
-			"css"
-		]
 	}
 ]
