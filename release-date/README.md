@@ -1,7 +1,5 @@
 # Release Date
 
-Shows the release date of the playing track above its title, and adds "Show release date" to the track context menu.
+Shows the release year next to the title of the playing track, and adds "Show release date" to the track context menu for the full date.
 
-Replaces Song Stats (CharlieS1103), which died when Spotify closed the audio-features API. Uses the client's internal GraphQL `getTrack` query, so no Web API calls and no rate limits.
-
-Install: symlink `release-date.js` into `~/.config/spicetify/Extensions/`, then `spicetify config extensions release-date.js && spicetify apply`.
+Uses the client's internal GraphQL `getTrack` query, so no Web API calls and no rate limits.

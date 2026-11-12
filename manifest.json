@@ -1,0 +1,114 @@
+[
+	{
+		"name": "Like Button",
+		"description": "Heart button on tracklist rows and in the now playing bar. A half heart means another version of the same recording is already liked. No Web API calls.",
+		"preview": "like-button/preview.png",
+		"main": "like-button/like-button.js",
+		"readme": "like-button/README.md",
+		"tags": [
+			"like",
+			"heart",
+			"liked songs"
+		]
+	},
+	{
+		"name": "Release Date",
+		"description": "Shows the release year next to the playing track's title, and the full release date in the track context menu.",
+		"preview": "release-date/preview.png",
+		"main": "release-date/release-date.js",
+		"readme": "release-date/README.md",
+		"tags": [
+			"release date",
+			"now playing"
+		]
+	},
+	{
+		"name": "Genre Tags",
+		"description": "Shows Last.fm genre tags of the playing artist in the now playing bar. Click a tag to open its 'The Sound of' playlist by The Sounds of Spotify.",
+		"preview": "genre-tags/preview.png",
+		"main": "genre-tags/genre-tags.js",
+		"readme": "genre-tags/README.md",
+		"tags": [
+			"genres",
+			"last.fm",
+			"now playing"
+		]
+	},
+	{
+		"name": "Playing From",
+		"description": "Shows the playlist, album or artist you are playing from in the now playing bar. Click it to open it. Shows 'Recommended songs' during autoplay.",
+		"preview": "playing-from/preview.png",
+		"main": "playing-from/playing-from.js",
+		"readme": "playing-from/README.md",
+		"tags": [
+			"now playing",
+			"context"
+		]
+	},
+	{
+		"name": "Copy Track Titles",
+		"description": "Adds 'Copy titles' to the track context menu. Copies the selected tracks as 'Artist - Title' lines.",
+		"preview": "copy-track-titles/preview.png",
+		"main": "copy-track-titles/copy-track-titles.js",
+		"readme": "copy-track-titles/README.md",
+		"tags": [
+			"clipboard",
+			"context menu"
+		]
+	},
+	{
+		"name": "Random Playlist",
+		"description": "Button next to the Your Library title that plays a random playlist from your library, opens it and scrolls to it in the sidebar.",
+		"preview": "random-playlist/preview.png",
+		"main": "random-playlist/random-playlist.js",
+		"readme": "random-playlist/README.md",
+		"tags": [
+			"library",
+			"shuffle",
+			"playlists"
+		]
+	},
+	{
+		"name": "Folder Breadcrumb",
+		"description": "Shows the library folder path at the top of a playlist page. Click a folder to expand it and jump to it in the sidebar.",
+		"preview": "folder-breadcrumb/preview.png",
+		"main": "folder-breadcrumb/folder-breadcrumb.js",
+		"readme": "folder-breadcrumb/README.md",
+		"tags": [
+			"library",
+			"folders"
+		]
+	},
+	{
+		"name": "Folder Alt Click",
+		"description": "Alt-click a folder arrow in Your Library to collapse or expand it together with all its subfolders.",
+		"preview": "folder-alt-click/preview.png",
+		"main": "folder-alt-click/folder-alt-click.js",
+		"readme": "folder-alt-click/README.md",
+		"tags": [
+			"library",
+			"folders"
+		]
+	},
+	{
+		"name": "Menu Dividers",
+		"description": "Groups the track context menu with extra dividers: these extensions, other extensions, then Spotify's own items.",
+		"preview": "menu-dividers/preview.png",
+		"main": "menu-dividers/menu-dividers.js",
+		"readme": "menu-dividers/README.md",
+		"tags": [
+			"context menu"
+		]
+	},
+	{
+		"name": "Layout Tweaks",
+		"description": "Shows up to 10 custom app icons in the top bar instead of 4.",
+		"preview": "layout-tweaks/preview.png",
+		"main": "layout-tweaks/layout-tweaks.js",
+		"readme": "layout-tweaks/README.md",
+		"tags": [
+			"layout",
+			"css"
+		]
+	}
+]

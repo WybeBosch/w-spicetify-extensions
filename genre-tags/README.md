@@ -1,9 +1,21 @@
 # Genre Tags
 
-Shows the top Last.fm tags of the playing artist above the track title. Click a tag to search Spotify for its "The Sound of ..." playlist (Every Noise).
+Shows the top Last.fm tags of the playing artist under the artist name in the now playing bar.
 
-Replaces Better Spotify Genres (Vexcited), whose repo was deleted. Spotify no longer exposes artist genres in its internal metadata, and the Web API is rate limited, so this uses Last.fm.
+Click a tag to open the matching "The Sound of ..." playlist by [The Sounds of Spotify](https://open.spotify.com/user/thesoundsofspotify) (Every Noise at Once). If there is no exact match it opens the playlist search instead, where their playlists get a green border.
 
-Needs a Last.fm API key in localStorage `genre-tags:lastfm-api-key`. Falls back to the Stats app key (`stats:config:api-key`).
+Spotify no longer exposes artist genres in its client, and the Web API is rate limited, so the tags come from Last.fm.
 
-Install: symlink `genre-tags.js` into `~/.config/spicetify/Extensions/`, then `spicetify config extensions genre-tags.js && spicetify apply`.
+## Setup
+
+You need a free [Last.fm API key](https://www.last.fm/api/account/create). Open the Spotify devtools console (`spicetify enable-devtools`, then right-click, Inspect) and run:
+
+```js
+localStorage.setItem("genre-tags:lastfm-api-key", "YOUR_KEY");
+```
+
+Then reload Spotify. If you use the Stats custom app with a Last.fm key, that key is used automatically.
+
+## How the playlist lookup works
+
+On first start it fetches the list of all "The Sound of" playlists once in the background (about 7000, takes under a minute) and caches it in localStorage for 30 days. Tag clicks before that finishes go to the search page.

@@ -1,5 +1,9 @@
 # Menu Dividers
 
-Groups the context menu: own extensions, other extensions, then Spotify's items, with an extra divider before "Hide song".
+Groups the track context menu with extra dividers:
 
-Wraps `Spicetify.ContextMenuV2.renderItems`. Own items are listed in `OWN`, extra native dividers in `NATIVE_DIVIDE_BEFORE` (matched on English labels).
+1. the items of the extensions in this repo (Copy titles, Show release date)
+2. items of other extensions
+3. Spotify's own items, with an extra divider before "Hide song"
+
+Wraps `Spicetify.ContextMenuV2.renderItems`. The item names are listed in `OWN` and `NATIVE_DIVIDE_BEFORE` at the top of the file and are matched on English labels.
