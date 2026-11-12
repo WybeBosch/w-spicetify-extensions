@@ -4,18 +4,18 @@ Extensions for [Spicetify](https://spicetify.app). They only use Spotify's inter
 
 Built and tested on Spotify 1.2.87 with spicetify 2.46.4.
 
-| Extension | What it does |
-|---|---|
-| [Like Button](like-button/) | Heart button on tracklist rows and in the now playing bar. A half heart means another version of the same recording is already liked. No Web API calls. |
-| [Release Date](release-date/) | Shows the release year next to the playing track's title, and the full release date in the track context menu. |
-| [Genre Tags](genre-tags/) | Shows Last.fm genre tags of the playing artist in the now playing bar. Click a tag to open its 'The Sound of' playlist by The Sounds of Spotify. |
-| [Playing From](playing-from/) | Shows the playlist, album or artist you are playing from in the now playing bar. Click it to open it. Shows 'Recommended songs' during autoplay. |
-| [Copy Track Titles](copy-track-titles/) | Adds 'Copy titles' to the track context menu. Copies the selected tracks as 'Artist - Title' lines. |
-| [Random Playlist](random-playlist/) | Button next to the Your Library title that plays a random playlist from your library, opens it and scrolls to it in the sidebar. |
-| [Folder Breadcrumb](folder-breadcrumb/) | Shows the library folder path at the top of a playlist page. Click a folder to expand it and jump to it in the sidebar. |
-| [Folder Alt Click](folder-alt-click/) | Alt-click a folder arrow in Your Library to collapse or expand it together with all its subfolders. |
-| [Menu Dividers](menu-dividers/) | Groups the track context menu with extra dividers: these extensions, other extensions, then Spotify's own items. |
-| [Made For You](made-for-you/) | Custom app: a "Made For You" link in the navigation that opens Spotify's own Made For You page. |
+| | Extension | What it does |
+|---|---|---|
+| <img src="like-button/preview.png" width="140" alt="Like Button"> | [Like Button](like-button/) | Heart button on track rows. Half heart: another version is liked. |
+| <img src="release-date/preview.png" width="140" alt="Release Date"> | [Release Date](release-date/) | Release year next to the playing track's title. |
+| <img src="genre-tags/preview.png" width="140" alt="Genre Tags"> | [Genre Tags](genre-tags/) | Genres in the now playing bar, linked to 'The Sound of' playlists. |
+| <img src="playing-from/preview.png" width="140" alt="Playing From"> | [Playing From](playing-from/) | Shows the playlist or album you are playing from. Click to open it. |
+| <img src="copy-track-titles/preview.png" width="140" alt="Copy Track Titles"> | [Copy Track Titles](copy-track-titles/) | Right-click tracks to copy them as 'Artist - Title'. |
+| <img src="random-playlist/preview.png" width="140" alt="Random Playlist"> | [Random Playlist](random-playlist/) | Button that plays a random playlist from your library. |
+| <img src="folder-breadcrumb/preview.png" width="140" alt="Folder Breadcrumb"> | [Folder Breadcrumb](folder-breadcrumb/) | Folder path at the top of a playlist. Click to jump to the folder. |
+| <img src="folder-alt-click/preview.gif" width="140" alt="Folder Alt Click"> | [Folder Alt Click](folder-alt-click/) | Alt-click a folder arrow to collapse or expand all its subfolders. |
+| <img src="menu-dividers/preview.png" width="140" alt="Menu Dividers"> | [Menu Dividers](menu-dividers/) | Extra dividers that group the track right-click menu. |
+| | [Made For You](made-for-you/) | Custom app: a "Made For You" link in the navigation that opens Spotify's own Made For You page. |
 
 ## Install
 

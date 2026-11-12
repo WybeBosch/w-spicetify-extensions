@@ -82,7 +82,7 @@
 	{
 		"name": "Folder Alt Click",
 		"description": "Alt-click a folder arrow to collapse or expand all its subfolders.",
-		"preview": "folder-alt-click/preview.png",
+		"preview": "folder-alt-click/preview.gif",
 		"main": "folder-alt-click/folder-alt-click.js",
 		"readme": "folder-alt-click/README.md",
 		"tags": [
