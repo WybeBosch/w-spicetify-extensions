@@ -1,5 +1,7 @@
 # Like Button
 
+<img src="https://raw.githubusercontent.com/WybeBosch/w-spicetify-extensions/main/like-button/preview.png" width="320" alt="Like Button">
+
 Heart button on tracklist rows and in the now playing bar, next to Spotify's own add button.
 
 - Full heart: liked.

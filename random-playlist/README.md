@@ -1,5 +1,7 @@
 # Random Playlist
 
+<img src="https://raw.githubusercontent.com/WybeBosch/w-spicetify-extensions/main/random-playlist/preview.png" width="320" alt="Random Playlist">
+
 Shuffle button next to the Your Library title. One click:
 
 1. plays a random playlist from your library (your own, followed and Spotify playlists, inside folders too)

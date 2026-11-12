@@ -1,5 +1,7 @@
 # Menu Dividers
 
+<img src="https://raw.githubusercontent.com/WybeBosch/w-spicetify-extensions/main/menu-dividers/preview.png" width="320" alt="Menu Dividers">
+
 Groups the track context menu with extra dividers:
 
 1. the items of the extensions in this repo (Copy titles, Show release date)

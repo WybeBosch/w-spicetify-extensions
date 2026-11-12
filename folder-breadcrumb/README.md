@@ -1,5 +1,7 @@
 # Folder Breadcrumb
 
+<img src="https://raw.githubusercontent.com/WybeBosch/w-spicetify-extensions/main/folder-breadcrumb/preview.png" width="320" alt="Folder Breadcrumb">
+
 Shows the library folder path (for example `Games › Racing`) at the top of a playlist page.
 
 Click a folder in the path: it expands in the sidebar together with its parent folders, the sidebar jumps to it and the row flashes briefly.

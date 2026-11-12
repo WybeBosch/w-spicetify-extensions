@@ -1,5 +1,7 @@
 # Genre Tags
 
+<img src="https://raw.githubusercontent.com/WybeBosch/w-spicetify-extensions/main/genre-tags/preview.png" width="320" alt="Genre Tags">
+
 Shows the genres of the playing artist in the now playing bar, and links each one to its "The Sound of ..." playlist from [The Sounds of Spotify](https://open.spotify.com/user/thesoundsofspotify) (the Every Noise at Once playlists, like [The Sound of Everything](https://open.spotify.com/playlist/69fEt9DN5r4JQATi52sRtq)).
 
 - The genres are the artist's top tags on Last.fm, shown under the artist name.
